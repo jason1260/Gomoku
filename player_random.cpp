@@ -29,8 +29,9 @@ void write_valid_spot(std::ofstream& fout) {
     // Keep updating the output until getting killed.
     while(true) {
         // Choose a random spot.
-        int x = (rand() % SIZE);
-        int y = (rand() % SIZE);
+        x = (rand() % SIZE);
+        y = (rand() % SIZE);
+        //int x = 1; int y = 1;
         if (board[x][y] == EMPTY) {
             fout << x << " " << y << std::endl;
             // Remember to flush the output to ensure the last action is written to file.

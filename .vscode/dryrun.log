@@ -1,3 +1,7 @@
-make.exe all --dry-run --keep-going --print-directory
-'make.exe' ���O�����Υ~���R�O�B�i���檺�{���Χ妸�ɡC
+make.exe all -f C:\Users\jason\Documents\lab\Project_3\student\src -C C:\Users\jason\Documents\lab\Project_3\student\src --dry-run --always-make --keep-going --print-directory
+make.exe: Entering directory 'C:/Users/jason/Documents/lab/Project_3/student/src'
+make.exe: Leaving directory 'C:/Users/jason/Documents/lab/Project_3/student/src'
+ 
+make.exe: C:\Users\jason\Documents\lab\Project_3\student\src: Permission denied
+make.exe: *** No rule to make target 'all'.
 

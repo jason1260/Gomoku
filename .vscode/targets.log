@@ -1,3 +1,313 @@
-make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-'make.exe' ���O�����Υ~���R�O�B�i���檺�{���Χ妸�ɡC
+make.exe all -f C:\Users\jason\Documents\lab\Project_3\student\src -C C:\Users\jason\Documents\lab\Project_3\student\src --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.82.90
+# Built for i686-pc-mingw32
+# Copyright (C) 1988-2012 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+ 
+# make.exe: Entering directory 'C:/Users/jason/Documents/lab/Project_3/student/src'
+ 
+make.exe: C:\Users\jason\Documents\lab\Project_3\student\src: Permission denied
+
+
+# Make data base, printed on Thu Jun 16 13:51:33 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# automatic
+?F = $(notdir $?)
+# default
+.SHELLFLAGS := -c
+# makefile
+MAKEFLAGS = wRrqp
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# makefile
+CURDIR := C:/Users/jason/Documents/lab/Project_3/student/src
+# default
+SHELL := sh.exe
+# environment
+WINDIR = C:\WINDOWS
+# environment
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{},"_languagePackSupport":true}
+# environment
+PYCHARM COMMUNITY EDITION = C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.3\bin;
+# environment
+ONEDRIVE = C:\Users\jason\OneDrive
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile
+MAKEFILE_LIST := 
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+TMP = C:\Users\jason\AppData\Local\Temp
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-99ea5755-9565-401f-899d-fe2d383cf8af-sock
+# environment
+VSCODE_CWD = C:\Users\jason\AppData\Local\Programs\Microsoft VS Code
+# environment
+PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin;C:\Program Files\PuTTY\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\nodejs\;C:\MinGW\bin;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X64\;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X86\;C:\Program Files\MATLAB\R2021b\bin;C:\Program Files\Git\cmd;C:\Users\jason\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\jason\AppData\Local\Programs\Python\Python39\;C:\Users\jason\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\jason\AppData\Local\Programs\Python\Python37-32\;C:\Users\jason\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.3\bin;;;C:\Users\jason\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jason\AppData\Roaming\npm
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# environment
+USERPROFILE = C:\Users\jason
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+VSCODE_LOG_STACK = false
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver
+# automatic
+%F = $(notdir $%)
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3712_MRAUSFYDHMFCAFCN
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+COMPUTERNAME = JASONTU
+# environment
+PROGRAMFILES = C:\Program Files (x86)
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+ASL.LOG = Destination=file
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERNAME = jason
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\jason\AppData\Roaming\Code\CachedData\4af164ea3a06f701fe3e89a2bcbb421d2026b68f
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
+# environment
+LOGONSERVER = \\JASONTU
+# environment
+ONEDRIVECONSUMER = C:\Users\jason\OneDrive
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = JASONTU
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# default
+MAKE_VERSION := 3.82.90
+# makefile
+.DEFAULT_GOAL := 
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# environment
+LOCALAPPDATA = C:\Users\jason\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\14056590d70f8a493d9789244891a9bc-1.68.0-main-sock
+# environment
+HOMEPATH = \Users\jason
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -wRrqp
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+SYSTEMROOT = C:\WINDOWS
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\jason\AppData\Roaming
+# environment
+VXIPNPPATH = C:\Program Files (x86)\IVI Foundation\VISA\
+# environment
+TEMP = C:\Users\jason\AppData\Local\Temp
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 8e0a
+# default
+.INCLUDE_DIRS = C:/MinGW/include
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 3712
+# environment
+USERDOMAIN_ROAMINGPROFILE = JASONTU
+# variable set hash-table stats:
+# Load=95/1024=9%, Rehash=0, Collisions=12/111=11%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# : could not be stat'd.
+# C:\Users\jason\AppData\Local\Programs\Python\Python37-32\ (key C:/Users/jason/AppData/Local/Programs/Python/Python37-32/, mtime 1613486586): 27 files, no impossibilities.
+# C:\Program Files (x86)\Pulse Secure\VC142.CRT\X64\ (key C:/Program Files (x86)/Pulse Secure/VC142.CRT/X64/, mtime 1631205243): 10 files, no impossibilities.
+# C:\Users\jason\AppData\Local\Programs\Python\Python37-32\Scripts\ (key C:/Users/jason/AppData/Local/Programs/Python/Python37-32/Scripts/, mtime 1613486697): 23 files, no impossibilities.
+# C:\Program Files\Intel\WiFi\bin\ (key C:/Program Files/Intel/WiFi/bin/, mtime 1654263745): 3 files, no impossibilities.
+# C:\Program Files\Common Files\Intel\WirelessCommon\ (key C:/Program Files/Common Files/Intel/WirelessCommon/, mtime 1566725049): 7 files, no impossibilities.
+# C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1622011415): 34 files, no impossibilities.
+# C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, mtime 1655314397): 156 files, no impossibilities.
+# . (key C:/Users/jason/Documents/lab/Project_3/student/src, mtime 1655282602): 3 files, no impossibilities.
+# C:\Program Files (x86)\Common Files\Oracle\Java\javapath (key C:/Program Files (x86)/Common Files/Oracle/Java/javapath, mtime 1634715169): 5 files, no impossibilities.
+# C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1655279060): 8 files, no impossibilities.
+# C:\Windows\System32\OpenSSH\: could not be stat'd.
+# C:\MinGW\bin (key C:/MinGW/bin, mtime 1655282341): 57 files, no impossibilities.
+# C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1533658820): 10 files, no impossibilities.
+# C:\Users\jason\AppData\Local\Programs\Python\Python39\Scripts\ (key C:/Users/jason/AppData/Local/Programs/Python/Python39/Scripts/, mtime 1617789277): 9 files, no impossibilities.
+# C:\Program Files\Intel\iCLS Client\ (key C:/Program Files/Intel/iCLS Client/, mtime 1533658527): 11 files, no impossibilities.
+# C:\Program Files\Intel\Intel(R) Management Engine Components\DAL (key C:/Program Files/Intel/Intel(R) Management Engine Components/DAL, mtime 1533658494): 4 files, no impossibilities.
+# C:\WINDOWS (key C:/WINDOWS, mtime 1549629563): 138 files, no impossibilities.
+# C:\Program Files\Intel\Intel(R) Management Engine Components\IPT (key C:/Program Files/Intel/Intel(R) Management Engine Components/IPT, mtime 1533658494): 5 files, no impossibilities.
+# C:\Users\jason\AppData\Local\Programs\Python\Python39\ (key C:/Users/jason/AppData/Local/Programs/Python/Python39/, mtime 1615703936): 25 files, no impossibilities.
+# C:\Windows (key C:/Windows, mtime 1549629563): 138 files, no impossibilities.
+# C:\Users\jason\AppData\Roaming\npm (key C:/Users/jason/AppData/Roaming/npm, mtime 1617192586): 2 files, no impossibilities.
+# C:\Program Files\MATLAB\R2021b\bin (key C:/Program Files/MATLAB/R2021b/bin, mtime 1634055927): 14 files, no impossibilities.
+# C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.3\bin (key C:/Program Files/JetBrains/PyCharm Community Edition 2020.3.3/bin, mtime 1617976802): 29 files, no impossibilities.
+# C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1655314397): 156 files, no impossibilities.
+# C:\Program Files (x86)\Pulse Secure\VC142.CRT\X86\ (key C:/Program Files (x86)/Pulse Secure/VC142.CRT/X86/, mtime 1631205243): 9 files, no impossibilities.
+# C:\Users\jason\AppData\Local\Microsoft\WindowsApps (key C:/Users/jason/AppData/Local/Microsoft/WindowsApps, mtime 1653707831): 15 files, no impossibilities.
+# C:\Program Files\Common Files\Oracle\Java\javapath (key C:/Program Files/Common Files/Oracle/Java/javapath, mtime 1617193280): 6 files, no impossibilities.
+# C:\Program Files\nodejs\ (key C:/Program Files/nodejs/, mtime 1617192597): 11 files, no impossibilities.
+# C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1622011415): 34 files, no impossibilities.
+# C:\Windows\system32 (key C:/Windows/system32, mtime 1655354157): 3009 files, no impossibilities.
+# C:\Program Files (x86)\Intel\iCLS Client\ (key C:/Program Files (x86)/Intel/iCLS Client/, mtime 1533658559): 8 files, no impossibilities.
+# C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL (key C:/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL, mtime 1533658494): 10 files, no impossibilities.
+# C:\Users\jason\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/jason/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1655002869): 4 files, no impossibilities.
+# C:\Program Files (x86)\Intel\In 
+tel(R) Management Engine Components\IPT (key C:/Program Files (x86)/Intel/Intel(R) Management Engine Components/IPT, mtime 1533658494): 6 files, no impossibilities.
+# C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin (key C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Bin, mtime 1555504360): 5 files, no impossibilities.
+# C:\WINDOWS\System32\OpenSSH\: could not be stat'd.
+# C:\Program Files\PuTTY\ (key C:/Program Files/PuTTY/, mtime 1566559694): 12 files, no impossibilities.
+# C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1655354157): 3009 files, no impossibilities.
+
+# 7012 files, no impossibilities in 39 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+C:\Users\jason\Documents\lab\Project_3\student\src:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 16:43:22
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=4/1024=0%, Rehash=0, Collisions=0/14=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 7 (5) / strings = 3583 / storage = 53610 B / avg = 14 B
+# current buf: size = 8174 B / used = 4628 B / count = 264 / avg = 17 B
+# other used: total = 45436 B / count = 3319 / avg = 13 B
+# other free: total = 62 B / max = 17 B / min = 1 B / avg = 10 B
+
+# strcache performance: lookups = 7059 / hit rate = 49%
+# hash-table stats:
+# Load=3583/8192=44%, Rehash=0, Collisions=2372/7059=34%
+# Finished Make data base on Thu Jun 16 13:51:33 2022
+
+# make.exe: Leaving directory 'C:/Users/jason/Documents/lab/Project_3/student/src'
+ 
+make.exe: *** No rule to make target 'all'.  Stop.
 

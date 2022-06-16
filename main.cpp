@@ -66,9 +66,7 @@ private:
     }
     
 public:
-    GomokuBoard() {
-        reset();
-    }
+    GomokuBoard() { reset(); }
     void reset() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -158,7 +156,7 @@ public:
         if (board[x][y] == WHITE) return "X";
         return " ";
     }
-    std::string encode_output(bool fail=false) {
+    std::string encode_output(bool fail = false) {
         int i, j;
         std::stringstream ss;
         ss << "Timestep #" << (SIZE*SIZE-empty_count+1) << "\n";
