@@ -6,7 +6,7 @@
 #include <vector>
 #include <cassert>
 
-#define TIMEOUT 10
+#define TIMEOUT 3
 
 struct Point {
     int x, y;
@@ -66,7 +66,9 @@ private:
     }
     
 public:
-    GomokuBoard() { reset(); }
+    GomokuBoard() {
+        reset();
+    }
     void reset() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -156,7 +158,7 @@ public:
         if (board[x][y] == WHITE) return "X";
         return " ";
     }
-    std::string encode_output(bool fail = false) {
+    std::string encode_output(bool fail=false) {
         int i, j;
         std::stringstream ss;
         ss << "Timestep #" << (SIZE*SIZE-empty_count+1) << "\n";
@@ -175,7 +177,7 @@ public:
             }
             ss << encode_spot(i, j) << "|\n";
         }
-        ss << "===============================\n";
+        ss << "+-----------------------------+\n";
         return ss.str();
     }
     std::string encode_state() {
@@ -195,12 +197,13 @@ public:
 const std::string file_log = "gamelog.txt";
 const std::string file_state = "state";
 const std::string file_action = "action";
+const std::string file_pos_mov = "mov";
 const int timeout = TIMEOUT;
 
 void launch_executable(std::string filename) {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     size_t pos;
-    std::string command = "start /min " + filename + " " + file_state + " " + file_action;
+    std::string command = "start /min " + filename + " " + file_state + " " + file_action + " " + file_pos_mov;
     if((pos = filename.rfind("/"))!=std::string::npos || (pos = filename.rfind("\\"))!=std::string::npos)
         filename = filename.substr(pos+1, std::string::npos);
     std::string kill = "timeout /t " + std::to_string(timeout) + " > NUL && taskkill /im " + filename + " > NUL 2>&1";
