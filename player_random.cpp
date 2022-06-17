@@ -10,7 +10,7 @@ enum SPOT_STATE {
     WHITE = 2
 };
 
-int player;
+int player, avail = 225;
 const int SIZE = 15;
 std::array<std::array<int, SIZE>, SIZE> board;
 
@@ -19,6 +19,7 @@ void read_board(std::ifstream& fin) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             fin >> board[i][j];
+            if (board[i][j] != EMPTY) avail--;
         }
     }
 }
@@ -26,18 +27,20 @@ void read_board(std::ifstream& fin) {
 void write_valid_spot(std::ofstream& fout) {
     srand(time(NULL));
     int x, y;
-    // Keep updating the output until getting killed.
-    while(true) {
-        // Choose a random spot.
+    if (avail == 225) {
+        fout << 7 << " " << 7 << '\n';
+        fout.flush();
+        return;
+    }
+    //while(true) {
         x = (rand() % SIZE);
         y = (rand() % SIZE);
-        //int x = 1; int y = 1;
         if (board[x][y] == EMPTY) {
-            fout << x << " " << y << std::endl;
+            fout << x << " " << y << '\n';
             // Remember to flush the output to ensure the last action is written to file.
             fout.flush();
         }
-    }
+    //}
 }
 
 int main(int, char** argv) {
