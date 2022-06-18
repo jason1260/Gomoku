@@ -289,7 +289,7 @@ int main(int argc, char** argv) {
             std::ofstream fout(file_state);
             fout << data;
             fout.close();
-            if (!(turn & 1)) launch_executable(player_filename[2]);
+            if ((turn & 1)) launch_executable(player_filename[2]);
             else {
                 int x, y;
                 std::cout << "Please input (x, y): ";
