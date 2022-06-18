@@ -226,7 +226,7 @@ std::vector<std::pair<int, int>> findMoves(std::array<std::array<int, SIZE>, SIZ
     return moves;
 }
 
-node alphabeta(std::array<std::array<int, SIZE>, SIZE> bd, int depth, double a, double b, bool maximizingPlayer, std::ofstream& mov) {
+node alphabeta(std::array<std::array<int, SIZE>, SIZE> bd, int depth, double a, double b, bool maximizingPlayer) {
     if (depth == 0) {
         double val = evalBoard(bd, !maximizingPlayer);
         //mov << "val: " << val << '\n';
@@ -236,7 +236,7 @@ node alphabeta(std::array<std::array<int, SIZE>, SIZE> bd, int depth, double a, 
     std::vector<std::pair<int, int>> avail_move = findMoves(bd);
     if (avail_move.empty()) return node(evalBoard(bd, !maximizingPlayer), -1, -1);
     node bestMov(-1, -1);
-    mov << avail_move.size() << '\n';
+    //mov << avail_move.size() << '\n';
     if (maximizingPlayer) {
         bestMov.value = -1;
         for (auto m : avail_move) {
@@ -248,7 +248,7 @@ node alphabeta(std::array<std::array<int, SIZE>, SIZE> bd, int depth, double a, 
             }
             mov << '\n';
             mov.flush();*/
-            node tmpMov = alphabeta(tmp, depth - 1, a, b, !maximizingPlayer, mov);
+            node tmpMov = alphabeta(tmp, depth - 1, a, b, !maximizingPlayer);
             if (tmpMov.value > a) a = tmpMov.value;
             if (tmpMov.value >= b) return tmpMov;
             if (tmpMov.value > bestMov.value) {
@@ -272,7 +272,7 @@ node alphabeta(std::array<std::array<int, SIZE>, SIZE> bd, int depth, double a, 
             }
             mov << '\n';
             mov.flush();*/
-            node tmpMov = alphabeta(tmp, depth - 1, a, b, !maximizingPlayer, mov);
+            node tmpMov = alphabeta(tmp, depth - 1, a, b, !maximizingPlayer);
             if (tmpMov.value < b) b = tmpMov.value;
             if (tmpMov.value <= a) return tmpMov;
             if (tmpMov.value < bestMov.value) {
@@ -302,7 +302,7 @@ node findWinMov(std::array<std::array<int, SIZE>, SIZE> bd) {
     return winMov;
 }
 
-void write_valid_spot(std::ofstream& fout, std::ofstream& mov) {
+void write_valid_spot(std::ofstream& fout) { //, std::ofstream& mov
     int x, y;
     if (avail == 225) {
         fout << 7 << " " << 7 << '\n';
@@ -316,7 +316,7 @@ void write_valid_spot(std::ofstream& fout, std::ofstream& mov) {
         fout.flush();
         return;
     }
-    bestMove = alphabeta(board, DEPTH, -1, INF, !color, mov);
+    bestMove = alphabeta(board, DEPTH, -1, INF, !color);
     x = bestMove.x;
     y = bestMove.y;
     if (board[x][y] == EMPTY) {
@@ -331,7 +331,7 @@ int main(int, char** argv) {
     std::ofstream tryMov(argv[3]);
     //std::ofstream pos_mov(argv[3]);
     read_board(fin);
-    write_valid_spot(fout, tryMov);
+    write_valid_spot(fout);
     fin.close();
     fout.close();
     tryMov.close();

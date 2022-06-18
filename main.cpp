@@ -196,13 +196,13 @@ public:
 const std::string file_log = "gamelog.txt";
 const std::string file_state = "state";
 const std::string file_action = "action";
-const std::string file_pos_mov = "mov.txt";
+//const std::string file_pos_mov = "mov.txt";
 const int timeout = TIMEOUT;
 
 void launch_executable(std::string filename) {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     size_t pos;
-    std::string command = "start /min " + filename + " " + file_state + " " + file_action + " " + file_pos_mov;
+    std::string command = "start /min " + filename + " " + file_state + " " + file_action; // + " " + file_pos_mov
     if((pos = filename.rfind("/"))!=std::string::npos || (pos = filename.rfind("\\"))!=std::string::npos)
         filename = filename.substr(pos+1, std::string::npos);
     std::string kill = "timeout /t " + std::to_string(timeout) + " > NUL && taskkill /im " + filename + " > NUL 2>&1";
@@ -324,7 +324,7 @@ int main(int argc, char** argv) {
             data = game.encode_output();
             std::cout << data;
             log << data;
-            remove(file_pos_mov.c_str());
+            //remove(file_pos_mov.c_str());
             turn++;
         }
         log.close();
@@ -332,6 +332,6 @@ int main(int argc, char** argv) {
     // Reset state file
     if (remove(file_state.c_str()) != 0)
         std::cerr << "Error removing file: " << file_state << "\n";
-    remove(file_pos_mov.c_str());
+    //remove(file_pos_mov.c_str());
     return 0;
 }
