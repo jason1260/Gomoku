@@ -60,13 +60,14 @@ private:
         return true;
     }
     bool is_spot_valid(Point center) const {
-        if (get_disc(center) != EMPTY)
-            return false;
+        if (center.x < 0 || center.y < 0 || get_disc(center) != EMPTY) return false;
         return true;
     }
     
 public:
-    GomokuBoard() { reset(); }
+    GomokuBoard() {
+        reset();
+    }
     void reset() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -156,7 +157,7 @@ public:
         if (board[x][y] == WHITE) return "X";
         return " ";
     }
-    std::string encode_output(bool fail = false) {
+    std::string encode_output(bool fail=false) {
         int i, j;
         std::stringstream ss;
         ss << "Timestep #" << (SIZE*SIZE-empty_count+1) << "\n";
@@ -175,7 +176,7 @@ public:
             }
             ss << encode_spot(i, j) << "|\n";
         }
-        ss << "===============================\n";
+        ss << "+-----------------------------+\n";
         return ss.str();
     }
     std::string encode_state() {
@@ -195,12 +196,13 @@ public:
 const std::string file_log = "gamelog.txt";
 const std::string file_state = "state";
 const std::string file_action = "action";
+const std::string file_pos_mov = "mov.txt";
 const int timeout = TIMEOUT;
 
 void launch_executable(std::string filename) {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     size_t pos;
-    std::string command = "start /min " + filename + " " + file_state + " " + file_action;
+    std::string command = "start /min " + filename + " " + file_state + " " + file_action + " " + file_pos_mov;
     if((pos = filename.rfind("/"))!=std::string::npos || (pos = filename.rfind("\\"))!=std::string::npos)
         filename = filename.substr(pos+1, std::string::npos);
     std::string kill = "timeout /t " + std::to_string(timeout) + " > NUL && taskkill /im " + filename + " > NUL 2>&1";
@@ -219,54 +221,117 @@ void launch_executable(std::string filename) {
 
 int main(int argc, char** argv) {
     assert(argc == 3);
-    std::ofstream log("gamelog.txt");
-    std::string player_filename[3];
-    player_filename[1] = argv[1];
-    player_filename[2] = argv[2];
-    std::cout << "Player Black File: " << player_filename[GomokuBoard::BLACK] << std::endl;
-    std::cout << "Player White File: " << player_filename[GomokuBoard::WHITE] << std::endl;
-    GomokuBoard game;
-    std::string data;
-    data = game.encode_output();
-    std::cout << data;
-    log << data;
-    while (!game.done) {
-        // Output current state
-        data = game.encode_state();
-        std::ofstream fout(file_state);
-        fout << data;
-        fout.close();
-        // Run external program
-        launch_executable(player_filename[game.cur_player]);
-        // Read action
-        std::ifstream fin(file_action);
-        Point p(-1, -1);
-        while (true) {
-            int x, y;
-            if (!(fin >> x)) break;
-            if (!(fin >> y)) break;
-            p.x = x; p.y = y;
-        }
-        fin.close();
-        std::cout << "Put: (" << p.x << ',' << p.y << ")\n";
-        // Reset action file
-        if (remove(file_action.c_str()) != 0)
-            std::cerr << "Error removing file: " << file_action << "\n";
-        // Take action
-        if (!game.put_disc(p)) {
-            // If action is invalid.
-            data = game.encode_output(true);
-            std::cout << data;
-            log << data;
-            break;
-        }
+    int play_mode;
+    std::cout << "eve or pve? (eve = 0, pve = 1): \n";
+    std::cin >> play_mode;
+    if (!play_mode) {
+        std::ofstream log("gamelog.txt");
+        std::string player_filename[3];
+        player_filename[1] = argv[1];
+        player_filename[2] = argv[2];
+        std::cout << "Player Black File: " << player_filename[GomokuBoard::BLACK] << std::endl;
+        std::cout << "Player White File: " << player_filename[GomokuBoard::WHITE] << std::endl;
+        GomokuBoard game;
+        std::string data;
         data = game.encode_output();
         std::cout << data;
         log << data;
+        while (!game.done) {
+            // Output current state
+            data = game.encode_state();
+            std::ofstream fout(file_state);
+            fout << data;
+            fout.close();
+            // Run external program
+            launch_executable(player_filename[game.cur_player]);
+            // Read action
+            std::ifstream fin(file_action);
+            Point p(-1, -1);
+            while (true) {
+                int x, y;
+                if (!(fin >> x)) break;
+                if (!(fin >> y)) break;
+                p.x = x; p.y = y;
+            }
+            fin.close();
+            std::cout << "Put: (" << p.x << ',' << p.y << ")\n";
+            // Reset action file
+            if (remove(file_action.c_str()) != 0)
+                std::cerr << "Error removing file: " << file_action << "\n";
+            // Take action
+            if (!game.put_disc(p)) {
+                // If action is invalid.
+                data = game.encode_output(true);
+                std::cout << data;
+                log << data;
+                break;
+            }
+            data = game.encode_output();
+            std::cout << data;
+            log << data;
+        }
+        log.close();
+    } else {
+        int turn = 0;
+        std::ofstream log("gamelog.txt");
+        std::string player_filename[3];
+        player_filename[2] = argv[2];
+        std::cout << "Player Black File: " << player_filename[2] << std::endl;
+        std::cout << "Player White File: " << "You" << std::endl;
+        GomokuBoard game;
+        std::string data;
+        data = game.encode_output();
+        std::cout << data;
+        log << data;
+        while (!game.done) {
+            // Output current state
+            data = game.encode_state();
+            std::ofstream fout(file_state);
+            fout << data;
+            fout.close();
+            if (!(turn & 1)) launch_executable(player_filename[2]);
+            else {
+                int x, y;
+                std::cout << "Please input (x, y): ";
+                std::cin >> x >> y;
+                std::ofstream input(file_action);
+                input << x << " " << y << '\n';
+                input.flush();
+                input.close();
+            }
+            // Read action
+            std::ifstream fin(file_action);
+            Point p(-1, -1);
+            while (true) {
+                int x, y;
+                if (!(fin >> x)) break;
+                if (!(fin >> y)) break;
+                p.x = x; p.y = y;
+            }
+            fin.close();
+            std::cout << "Put: (" << p.x << ',' << p.y << ")\n";
+            // Reset action file
+            if (remove(file_action.c_str()) != 0)
+                std::cerr << "Error removing file: " << file_action << "\n";
+            // Take action
+            if (!game.put_disc(p)) {
+                // If action is invalid.
+                data = game.encode_output(true);
+                std::cout << data;
+                log << data;
+                break;
+            }
+            data = game.encode_output();
+            std::cout << data;
+            log << data;
+            remove(file_pos_mov.c_str());
+            turn++;
+        }
+        log.close();
     }
-    log.close();
     // Reset state file
     if (remove(file_state.c_str()) != 0)
         std::cerr << "Error removing file: " << file_state << "\n";
+    //remove(file_pos_mov.c_str());
     return 0;
 }
