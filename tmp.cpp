@@ -53,7 +53,7 @@ int getCsctScore(int cnt, int blocks, bool curTurn) {
     if (blocks == 2 && cnt < 5) return 0;
     if (cnt == 5) return INF;
     else if (cnt == 4) {
-        return (curTurn) ? beeWin : (blocks == 0) ? beeWin >> 2 : 200;
+        return (curTurn) ? beeWin : (blocks == 0) ? beeWin >> 1 : 200;
     }
     else if (cnt == 3) {
         return (blocks == 0) ? ((curTurn) ? 50000 : 200) : ((curTurn) ? 10 : 5);
@@ -76,7 +76,7 @@ int eval_hrz(std::array<std::array<int, SIZE>, SIZE> bd, bool is_blk, bool mytur
                     score += getCsctScore(csct, blocks, is_blk == myturn);
                     csct = 0; blocks = 1;
                 }
-                else blocks++;
+                else blocks = 1;
             }
             else if (csct > 0) {
                 score += getCsctScore(csct, blocks, is_blk == myturn);
@@ -101,7 +101,7 @@ int eval_vtc(std::array<std::array<int, SIZE>, SIZE> bd, bool is_blk, bool mytur
                     score += getCsctScore(csct, blocks, is_blk == myturn);
                     csct = 0; blocks = 1;
                 }
-                else blocks++;
+                else blocks = 1;
             }
             else if (csct > 0) {
                 score += getCsctScore(csct, blocks, is_blk == myturn);
@@ -129,7 +129,7 @@ int eval_dgn(std::array<std::array<int, SIZE>, SIZE> bd, bool is_blk, bool mytur
                     score += getCsctScore(csct, blocks, is_blk == myturn);
                     csct = 0; blocks = 1;
                 }
-                else blocks++;
+                else blocks = 1;
             }
             else if (csct > 0) {
                 score += getCsctScore(csct, blocks, is_blk == myturn);
@@ -152,7 +152,7 @@ int eval_dgn(std::array<std::array<int, SIZE>, SIZE> bd, bool is_blk, bool mytur
                     score += getCsctScore(csct, blocks, is_blk == myturn);
                     csct = 0; blocks = 1;
                 }
-                else blocks++;
+                else blocks = 1;
             }
             else if (csct > 0) {
                 score += getCsctScore(csct, blocks, is_blk == myturn);
@@ -173,29 +173,29 @@ double calBoard(std::array<std::array<int, SIZE>, SIZE> bd, bool is_blk, bool my
 double evalBoard(std::array<std::array<int, SIZE>, SIZE> bd, bool myturn) {
     double blkScore, whtScore;
     if (color) {
-        blkScore = calBoard(bd, false, myturn);
-        whtScore = calBoard(bd, true, myturn);
-        if (whtScore == 0) whtScore = 1.0;
+        blkScore = calBoard(bd, true, !myturn);
+        whtScore = calBoard(bd, false, !myturn);
+        if (whtScore == 0) whtScore = 1;
         return blkScore / whtScore;
     } else {
         blkScore = calBoard(bd, true, myturn);
         whtScore = calBoard(bd, false, myturn);
-        if (blkScore == 0) blkScore = 1.0;
+        if (blkScore == 0) blkScore = 1;
         return whtScore / blkScore;
     }
 }
 
 std::vector<std::pair<int, int>> findMoves(std::array<std::array<int, SIZE>, SIZE> bd) {
-    std::vector<std::vector<bool>> is_res(SIZE, std::vector<bool> (SIZE, false));
+    //std::vector<std::vector<bool>> is_res(SIZE, std::vector<bool> (SIZE, false));
     std::vector<std::pair<int, int>> moves;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            if (bd[i][j] != EMPTY || is_res[i][j]) continue;
+            if (bd[i][j] != EMPTY) continue; //|| is_res[i][j]
             if ((i - 1 >= 0 && bd[i - 1][j]) || (i + 1 < SIZE && bd[i + 1][j]) ||
                 (j - 1 >= 0 && bd[i][j - 1]) || (j + 1 < SIZE && bd[i][j + 1]) ||
                 (i - 1 >= 0 && j - 1 >= 0 && bd[i - 1][j - 1]) || (i + 1 < SIZE && j - 1 >= 0 && bd[i + 1][j - 1]) ||
                 (i - 1 >= 0 && j + 1 < SIZE && bd[i - 1][j + 1]) || (i + 1 < SIZE && j + 1 < SIZE && bd[i + 1][j + 1])) {
-                    is_res[i][j] = true;
+                    //is_res[i][j] = true;
                     moves.emplace_back(std::pair<int, int> {i, j});
                 }
         }
