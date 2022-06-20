@@ -184,17 +184,15 @@ int evalBoard(bool myturn) {
 }
 
 std::vector<std::pair<int, int>> findMoves() {
-    std::vector<std::vector<bool>> is_res(SIZE, std::vector<bool> (SIZE, false));
     std::vector<std::pair<int, int>> moves;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            if (board[i][j] != EMPTY || is_res[i][j]) continue;
+            if (board[i][j] != EMPTY) continue;
             if ((i - 1 >= 0 && board[i - 1][j]) || (i + 1 < SIZE && board[i + 1][j]) ||
                 (j - 1 >= 0 && board[i][j - 1]) || (j + 1 < SIZE && board[i][j + 1]) ||
                 (i - 1 >= 0 && j - 1 >= 0 && board[i - 1][j - 1]) || (i + 1 < SIZE && j - 1 >= 0 && board[i + 1][j - 1]) ||
                 (i - 1 >= 0 && j + 1 < SIZE && board[i - 1][j + 1]) || (i + 1 < SIZE && j + 1 < SIZE && board[i + 1][j + 1])) {
                     moves.emplace_back(std::pair<int, int> {i, j});
-                    is_res[i][j] = true;
                 }
         }
     }
@@ -305,14 +303,12 @@ void write_valid_spot(std::ofstream& fout) {
 }
 
 int main(int, char** argv) {
+    std::ios::sync_with_stdio(0); std::cin.tie(0);
     std::ifstream fin(argv[1]);
-    std::ofstream fout(argv[2]);
-    //std::ofstream tryMov(argv[3]);
-    //std::ofstream pos_mov(argv[3]);
+    std::ofstream fout(argv[2]);\
     read_board(fin);
     write_valid_spot(fout);
     fin.close();
     fout.close();
-    //tryMov.close();
     return 0;
 }
