@@ -5,7 +5,6 @@
 #include <array>
 #include <vector>
 #include <climits>
-#include <cfloat>
 #define INF 100000000
 
 enum SPOT_STATE {
