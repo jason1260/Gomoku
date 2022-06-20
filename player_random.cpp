@@ -50,73 +50,84 @@ void read_board(std::ifstream& fin) {
     }
 }
 
-int getCsctScore(int cnt, int blocks, bool curTurn) {
+int getCsctScore(int cnt, int blocks, bool is_special) {
     if (blocks == 2 && cnt < 5) return 0;
-    if (cnt == 5) return INF;
+    if (cnt >= 5) {
+        return (is_special) ? ((blocks == 0) ? 35000 : 25000) : INF;
+    }
     else if (cnt == 4) {
-        return (curTurn) ? beeWin : (blocks == 0) ? beeWin >> 1 : 200;
+        return (is_special) ? ((blocks == 0) ? 30000 : 20000) : ((blocks == 0) ? 100000 : 50000);
     }
     else if (cnt == 3) {
-        return (blocks == 0) ? ((curTurn) ? 50000 : 200) : ((curTurn) ? 10 : 5);
+        return (is_special) ? ((blocks == 0) ? 20000 : 3000) : ((blocks == 0) ? 30000 : 10);
     }
     else if (cnt == 2) {
-        return (blocks == 0) ? ((curTurn) ? 7 : 5) : 3;
+        return (is_special) ? ((blocks == 0) ? 4 : 1) : ((blocks == 0) ? 5 : 1);
     }
     else if (cnt == 1) return 1;
-    return 2 * INF;
+    return 0;
 }
 
-int eval_hrz(bool is_blk, bool myturn) {
+int eval_hrz(bool is_blk) {
     int csct = 0, blocks = 2, score = 0;
+    bool is_special = false;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if (board[i][j] == (is_blk ? BLACK : WHITE)) csct++;
             else if (board[i][j] == EMPTY) {
                 if (csct > 0) {
-                    blocks--;
-                    score += getCsctScore(csct, blocks, is_blk == myturn);
-                    csct = 0; blocks = 1;
+                    if (j + 1 < SIZE && board[i][j + 1] == (is_blk ? BLACK : WHITE)) is_special = true;
+                    else {
+                        blocks--;
+                        score += getCsctScore(csct, blocks, is_special);
+                        csct = 0; blocks = 1;
+                    }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, is_blk == myturn);
+                score += getCsctScore(csct, blocks, is_special);
                 csct = 0; blocks = 2;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, is_blk == myturn);
+        if (csct > 0) score += getCsctScore(csct, blocks, 0);
         csct = 0; blocks = 2;
     }
     return score;
 }
 
-int eval_vtc(bool is_blk, bool myturn) {
+int eval_vtc(bool is_blk) {
+    bool is_special = false;
     int csct = 0, blocks = 2, score = 0;
     for (int j = 0; j < SIZE; j++) {
         for (int i = 0; i < SIZE; i++) {
             if (board[i][j] == (is_blk ? BLACK : WHITE)) csct++;
             else if (board[i][j] == EMPTY) {
                 if (csct > 0) {
-                    blocks--;
-                    score += getCsctScore(csct, blocks, is_blk == myturn);
-                    csct = 0; blocks = 1;
+                    if (i + 1 < SIZE && board[i + 1][j] == (is_blk ? BLACK : WHITE)) is_special = true;
+                    else {
+                        blocks--;
+                        score += getCsctScore(csct, blocks, is_special);
+                        csct = 0; blocks = 1;
+                    }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, is_blk == myturn);
+                score += getCsctScore(csct, blocks, 0);
                 csct = 0; blocks = 2;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, is_blk == myturn);
+        if (csct > 0) score += getCsctScore(csct, blocks, 0);
         csct = 0; blocks = 2;
     }
     return score;
 }
 
-int eval_dgn(bool is_blk, bool myturn) {
+int eval_dgn(bool is_blk) {
+    bool is_special = false;
     int csct = 0, blocks = 2, score = 0;
     for (int k = 0; k <= 2 * (SIZE - 1); k++) {
         int st = std::max(0, k - SIZE + 1);
@@ -126,19 +137,22 @@ int eval_dgn(bool is_blk, bool myturn) {
             if (board[i][j] == (is_blk ? BLACK : WHITE)) csct++;
             else if (board[i][j] == EMPTY) {
                 if (csct > 0) {
-                    blocks--;
-                    score += getCsctScore(csct, blocks, is_blk == myturn);
-                    csct = 0; blocks = 1;
+                    if (i + 1 <= ed && board[i + 1][j - 1] == (is_blk ? BLACK : WHITE)) is_special = true;
+                    else {
+                        blocks--;
+                        score += getCsctScore(csct, blocks, is_special);
+                        csct = 0; blocks = 1;
+                    }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, is_blk == myturn);
+                score += getCsctScore(csct, blocks, 0);
                 csct = 0; blocks = 2;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, is_blk == myturn);
+        if (csct > 0) score += getCsctScore(csct, blocks, 0);
         csct = 0; blocks = 2;
     }
     for (int k = 1 - SIZE; k < SIZE; k++) {
@@ -149,38 +163,39 @@ int eval_dgn(bool is_blk, bool myturn) {
             if (board[i][j] == (is_blk ? BLACK : WHITE)) csct++;
             else if (board[i][j] == EMPTY) {
                 if (csct > 0) {
-                    blocks--;
-                    score += getCsctScore(csct, blocks, is_blk == myturn);
-                    csct = 0; blocks = 1;
+                    if (i + 1 <= ed && board[i + 1][j + 1] == (is_blk ? BLACK : WHITE)) is_special = true;
+                    else {
+                        blocks--;
+                        score += getCsctScore(csct, blocks, is_special);
+                        csct = 0; blocks = 1;
+                    }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, is_blk == myturn);
+                score += getCsctScore(csct, blocks, 0);
                 csct = 0; blocks = 2;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, is_blk == myturn);
+        if (csct > 0) score += getCsctScore(csct, blocks, 0);
         csct = 0; blocks = 2;
     }
     return score;
 }
 
-int calBoard(bool is_blk, bool myturn) {
-    return eval_dgn(is_blk, myturn) + eval_hrz(is_blk, myturn) + eval_vtc(is_blk, myturn);
+int calBoard(bool is_blk) {
+    return eval_dgn(is_blk) + eval_hrz(is_blk) + eval_vtc(is_blk);
 }
 
 double evalBoard(bool myturn) {
     double blkScore, whtScore;
+    blkScore = calBoard(true);
+    whtScore = calBoard(false);
     if (color) {
-        blkScore = calBoard(true, !myturn);
-        whtScore = calBoard(false, !myturn);
         if (whtScore == 0) whtScore = 1;
         return blkScore / whtScore;
     } else {
-        blkScore = calBoard(true, myturn);
-        whtScore = calBoard(false, myturn);
         if (blkScore == 0) blkScore = 1;
         return whtScore / blkScore;
     }
@@ -251,7 +266,7 @@ node findWinMov() {
     node winMov(-1, -1);
     for (auto &it : avail_mov) {
         board[it.first][it.second] = (color) ? BLACK : WHITE;
-        if (calBoard(color, color) >= INF) {
+        if (calBoard(color) >= INF) {
             winMov.x = it.first;
             winMov.y = it.second;
             board[it.first][it.second] = EMPTY;
@@ -267,7 +282,7 @@ node findLoseMov() {
     node loseMov(-1, -1);
     for (auto &it : avail_mov) {
         board[it.first][it.second] = (!color) ? BLACK : WHITE;
-        if (calBoard(!color, !color) >= INF) {
+        if (calBoard(!color) >= INF) {
             loseMov.x = it.first;
             loseMov.y = it.second;
             board[it.first][it.second] = EMPTY;
