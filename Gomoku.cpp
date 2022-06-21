@@ -16,7 +16,7 @@ enum SPOT_STATE {
 
 bool color = false;
 int beeWin = INF / 100;
-int player, avail = 225;
+int player, avail = 225, cnt = 0;
 const int SIZE = 15, DEPTH = 3;
 std::array<std::array<int, SIZE>, SIZE> board;
 class node {
@@ -222,6 +222,7 @@ std::vector<std::pair<int, int>> findMoves() {
 }
 
 node alphabeta(int depth, double a, double b, bool maximizingPlayer) {
+    cnt++;
     if (depth == 0) {
         double val = evalBoard(!maximizingPlayer);
         return node(val, -1, -1);
@@ -310,13 +311,13 @@ void write_valid_spot(std::ofstream& fout) {
         fout << bestMove.x << " " << bestMove.y << '\n';
         fout.flush();
         return;
-    } //else std::cout << "No Win Moves!\n";
+    }
     bestMove = findLoseMov();
     if (bestMove.x != -1 && bestMove.y != -1) {
         fout << bestMove.x << " " << bestMove.y << '\n';
         fout.flush();
         return;
-    } //else std::cout << "No Lose Moves!\n";
+    }
     bestMove = alphabeta(DEPTH, -DBL_MAX, DBL_MAX, true);
     x = bestMove.x;
     y = bestMove.y;
@@ -333,5 +334,6 @@ int main(int, char** argv) {
     write_valid_spot(fout);
     fin.close();
     fout.close();
+    std::cout << cnt << " times of compute.\n";
     return 0;
 }
