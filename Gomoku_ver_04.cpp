@@ -59,7 +59,7 @@ int getCsctScore(int cnt, int blocks, bool is_special, bool turn) {
         return (is_special) ? ((turn) ? 30000 : (blocks == 0) ? 25000 : 20000) : ((turn) ? 1000000 : ((blocks == 0) ? 50000 : 200));
     }
     else if (cnt == 3) {
-        return (is_special) ? ((blocks == 0) ? ((turn) ? 10000 : 100) : 20) : ((blocks == 0) ? ((turn) ? 50000 : 200) : ((turn) ? 10 : 5));
+        return (is_special) ? ((blocks == 0) ? ((turn) ? 10000 : 100) : 20) : ((blocks == 0) ? ((turn) ? 50000 : 400) : ((turn) ? 10 : 5));
     }
     else if (cnt == 2) {
         return (is_special) ? ((blocks == 0) ? ((turn) ? 5 : 3) : 1) : ((blocks == 0) ? ((turn) ? 7 : 5) : 2);
@@ -231,6 +231,8 @@ node alphabeta(int depth, double a, double b, bool maximizingPlayer) {
     node bestMov(-1, -1);
     if (maximizingPlayer) {
         bestMov.value = -DBL_MAX;
+        bestMov.x = avail_move[0].first;
+        bestMov.y = avail_move[0].second;
         for (auto m : avail_move) {
             board[m.first][m.second] = (color) ? BLACK : WHITE;
             node tmpMov = alphabeta(depth - 1, a, b, !maximizingPlayer);
@@ -245,8 +247,8 @@ node alphabeta(int depth, double a, double b, bool maximizingPlayer) {
     }
     else {
         bestMov.value = DBL_MAX;
-        //bestMov.x = avail_move[0].first;
-        //bestMov.y = avail_move[0].second;
+        bestMov.x = avail_move[0].first;
+        bestMov.y = avail_move[0].second;
         for (auto m : avail_move) {
             board[m.first][m.second] = (!color) ? BLACK : WHITE;
             node tmpMov = alphabeta(depth - 1, a, b, !maximizingPlayer);
