@@ -50,25 +50,25 @@ void read_board(std::ifstream& fin) {
     }
 }
 
-int getCsctScore(int cnt, int blocks, bool is_special) {
+int getCsctScore(int cnt, int blocks, bool is_special, bool turn) {
     if (blocks == 2 && cnt < 5) return 0;
     if (cnt >= 5) {
-        return (is_special) ? ((blocks == 0) ? 35000 : 25000) : INF;
+        return (is_special) ? ((turn) ? 35000 : (blocks == 0) ? 30000 : 25000) : INF;
     }
     else if (cnt == 4) {
-        return (is_special) ? ((blocks == 0) ? 30000 : 20000) : ((blocks == 0) ? 100000 : 50000);
+        return (is_special) ? ((turn) ? 30000 : (blocks == 0) ? 25000 : 20000) : ((turn) ? 1000000 : ((blocks == 0) ? 50000 : 200));
     }
     else if (cnt == 3) {
-        return (is_special) ? ((blocks == 0) ? 20000 : 3000) : ((blocks == 0) ? 30000 : 10);
+        return (is_special) ? ((blocks == 0) ? ((turn) ? 10000 : 100) : 20) : ((blocks == 0) ? ((turn) ? 50000 : 200) : ((turn) ? 10 : 5));
     }
     else if (cnt == 2) {
-        return (is_special) ? ((blocks == 0) ? 4 : 1) : ((blocks == 0) ? 5 : 1);
+        return (is_special) ? ((blocks == 0) ? ((turn) ? 5 : 3) : 1) : ((blocks == 0) ? ((turn) ? 7 : 5) : 2);
     }
     else if (cnt == 1) return 1;
     return 0;
 }
 
-int eval_hrz(bool is_blk) {
+int eval_hrz(bool is_blk, bool turn) {
     int csct = 0, blocks = 2, score = 0;
     bool is_special = false;
     for (int i = 0; i < SIZE; i++) {
@@ -79,25 +79,25 @@ int eval_hrz(bool is_blk) {
                     if (j + 1 < SIZE && board[i][j + 1] == (is_blk ? BLACK : WHITE)) is_special = true;
                     else {
                         blocks--;
-                        score += getCsctScore(csct, blocks, is_special);
-                        csct = 0; blocks = 1;
+                        score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                        csct = 0; blocks = 1; is_special = false;
                     }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, is_special);
-                csct = 0; blocks = 2;
+                score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                csct = 0; blocks = 2; is_special = false;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, 0);
-        csct = 0; blocks = 2;
+        if (csct > 0) score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+        csct = 0; blocks = 2; is_special = false;
     }
     return score;
 }
 
-int eval_vtc(bool is_blk) {
+int eval_vtc(bool is_blk, bool turn) {
     bool is_special = false;
     int csct = 0, blocks = 2, score = 0;
     for (int j = 0; j < SIZE; j++) {
@@ -108,25 +108,25 @@ int eval_vtc(bool is_blk) {
                     if (i + 1 < SIZE && board[i + 1][j] == (is_blk ? BLACK : WHITE)) is_special = true;
                     else {
                         blocks--;
-                        score += getCsctScore(csct, blocks, is_special);
-                        csct = 0; blocks = 1;
+                        score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                        csct = 0; blocks = 1; is_special = false;
                     }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, 0);
-                csct = 0; blocks = 2;
+                score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                csct = 0; blocks = 2; is_special = false;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, 0);
-        csct = 0; blocks = 2;
+        if (csct > 0) score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+        csct = 0; blocks = 2; is_special = false;
     }
     return score;
 }
 
-int eval_dgn(bool is_blk) {
+int eval_dgn(bool is_blk, bool turn) {
     bool is_special = false;
     int csct = 0, blocks = 2, score = 0;
     for (int k = 0; k <= 2 * (SIZE - 1); k++) {
@@ -140,20 +140,20 @@ int eval_dgn(bool is_blk) {
                     if (i + 1 <= ed && board[i + 1][j - 1] == (is_blk ? BLACK : WHITE)) is_special = true;
                     else {
                         blocks--;
-                        score += getCsctScore(csct, blocks, is_special);
-                        csct = 0; blocks = 1;
+                        score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                        csct = 0; blocks = 1; is_special = false;
                     }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, 0);
-                csct = 0; blocks = 2;
+                score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                csct = 0; blocks = 2; is_special = false;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, 0);
-        csct = 0; blocks = 2;
+        if (csct > 0) score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+        csct = 0; blocks = 2; is_special = false;
     }
     for (int k = 1 - SIZE; k < SIZE; k++) {
         int st = std::max(0, k);
@@ -166,36 +166,38 @@ int eval_dgn(bool is_blk) {
                     if (i + 1 <= ed && board[i + 1][j + 1] == (is_blk ? BLACK : WHITE)) is_special = true;
                     else {
                         blocks--;
-                        score += getCsctScore(csct, blocks, is_special);
-                        csct = 0; blocks = 1;
+                        score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                        csct = 0; blocks = 1; is_special = false;
                     }
                 }
                 else blocks = 1;
             }
             else if (csct > 0) {
-                score += getCsctScore(csct, blocks, 0);
-                csct = 0; blocks = 2;
+                score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+                csct = 0; blocks = 2; is_special = false;
             }
             else blocks = 2;
         }
-        if (csct > 0) score += getCsctScore(csct, blocks, 0);
-        csct = 0; blocks = 2;
+        if (csct > 0) score += getCsctScore(csct, blocks, is_special, is_blk == turn);
+        csct = 0; blocks = 2; is_special = false;
     }
     return score;
 }
 
-int calBoard(bool is_blk) {
-    return eval_dgn(is_blk) + eval_hrz(is_blk) + eval_vtc(is_blk);
+int calBoard(bool is_blk, bool turn) {
+    return eval_dgn(is_blk, turn) + eval_hrz(is_blk, turn) + eval_vtc(is_blk, turn);
 }
 
-double evalBoard(bool myturn) {
+double evalBoard(bool turn) {
     double blkScore, whtScore;
-    blkScore = calBoard(true);
-    whtScore = calBoard(false);
     if (color) {
+        blkScore = calBoard(true, !turn);
+        whtScore = calBoard(false, !turn);
         if (whtScore == 0) whtScore = 1;
         return blkScore / whtScore;
     } else {
+        blkScore = calBoard(true, turn);
+        whtScore = calBoard(false, turn);
         if (blkScore == 0) blkScore = 1;
         return whtScore / blkScore;
     }
@@ -243,8 +245,8 @@ node alphabeta(int depth, double a, double b, bool maximizingPlayer) {
     }
     else {
         bestMov.value = DBL_MAX;
-        bestMov.x = avail_move[0].first;
-        bestMov.y = avail_move[0].second;
+        //bestMov.x = avail_move[0].first;
+        //bestMov.y = avail_move[0].second;
         for (auto m : avail_move) {
             board[m.first][m.second] = (!color) ? BLACK : WHITE;
             node tmpMov = alphabeta(depth - 1, a, b, !maximizingPlayer);
@@ -253,8 +255,7 @@ node alphabeta(int depth, double a, double b, bool maximizingPlayer) {
             if (tmpMov.value <= a) return tmpMov;
             if (tmpMov.value < bestMov.value) {
                 bestMov = tmpMov;
-                bestMov.x = m.first;
-                bestMov.y = m.second;
+                bestMov.x = m.first; bestMov.y = m.second;
             }
         }
     }
@@ -266,7 +267,7 @@ node findWinMov() {
     node winMov(-1, -1);
     for (auto &it : avail_mov) {
         board[it.first][it.second] = (color) ? BLACK : WHITE;
-        if (calBoard(color) >= INF) {
+        if (calBoard(color, color) >= INF) {
             winMov.x = it.first;
             winMov.y = it.second;
             board[it.first][it.second] = EMPTY;
@@ -282,7 +283,8 @@ node findLoseMov() {
     node loseMov(-1, -1);
     for (auto &it : avail_mov) {
         board[it.first][it.second] = (!color) ? BLACK : WHITE;
-        if (calBoard(!color) >= INF) {
+        int total = calBoard(!color, !color);  
+        if (total >= INF) {
             loseMov.x = it.first;
             loseMov.y = it.second;
             board[it.first][it.second] = EMPTY;
@@ -306,13 +308,13 @@ void write_valid_spot(std::ofstream& fout) {
         fout << bestMove.x << " " << bestMove.y << '\n';
         fout.flush();
         return;
-    }
+    } //else std::cout << "No Win Moves!\n";
     bestMove = findLoseMov();
     if (bestMove.x != -1 && bestMove.y != -1) {
         fout << bestMove.x << " " << bestMove.y << '\n';
         fout.flush();
         return;
-    }
+    } //else std::cout << "No Lose Moves!\n";
     bestMove = alphabeta(DEPTH, -DBL_MAX, DBL_MAX, true);
     x = bestMove.x;
     y = bestMove.y;
